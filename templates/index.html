@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Route Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            background: url('/static/2025-05-10 14.43.56.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(30, 40, 60, 0.45);
+            z-index: 0;
+        }
+        .container {
+            background: #fff;
+            margin-top: 40px;
+            padding: 2em 2.5em 2em 2.5em;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            max-width: 480px;
+            width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 1.2em;
+            font-size: 2.1em;
+            letter-spacing: 1px;
+        }
+        .inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+            align-items: center;
+            margin-bottom: 1.2em;
+            justify-content: center;
+        }
+        .inputs label {
+            font-size: 1em;
+            color: #3a4a5d;
+            margin-right: 0.5em;
+        }
+        .inputs input[type="text"] {
+            padding: 0.5em 0.8em;
+            border: 1px solid #cfd8dc;
+            border-radius: 6px;
+            font-size: 1em;
+            background: #f7fafc;
+            transition: border 0.2s;
+        }
+        .inputs input[type="text"]:focus {
+            border: 1.5px solid #5b9df9;
+            outline: none;
+        }
+        .inputs button {
+            background: linear-gradient(90deg, #5b9df9 0%, #3a7bd5 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6em 1.4em;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(90, 157, 249, 0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .inputs button:hover {
+            background: linear-gradient(90deg, #3a7bd5 0%, #5b9df9 100%);
+            box-shadow: 0 4px 16px rgba(90, 157, 249, 0.13);
+        }
+        .inputs strong {
+            color: #2d3a4b;
+            font-size: 1.05em;
+        }
+        .inputs input[type="checkbox"] {
+            accent-color: #5b9df9;
+            width: 1.1em;
+            height: 1.1em;
+            margin-right: 0.3em;
+        }
+        #error {
+            color: #e74c3c;
+            font-size: 0.98em;
+            margin-left: 0.5em;
+        }
+        #map {
+            height: 480px;
+            width: 100vw;
+            max-width: 900px;
+            margin: 2.5em auto 0 auto;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+            z-index: 1;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1em 0.5em;
+                max-width: 98vw;
+            }
+            #map {
+                height: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Route Finder <span style="font-size:0.7em;color:#5b9df9;">(OpenStreetMap + OSRM)</span></h1>
+        <div class="inputs">
+            <label>Start (lat, lon): <input type="text" id="start" placeholder="e.g. 40.7128,-74.0060"></label>
+            <label>End (lat, lon): <input type="text" id="end" placeholder="e.g. 40.730610,-73.935242"></label>
+            <button id="routeBtn">Get Route</button>
+            <span id="error"></span>
+        </div>
+        <div class="inputs" style="flex-wrap: wrap; gap: 0.7em 1.2em;">
+            <strong>Show sightseeing types:</strong>
+            <label><input type="checkbox" class="sight-type" value="tourism=museum" checked> Museum</label>
+            <label><input type="checkbox" class="sight-type" value="tourism=attraction" checked> Attraction</label>
+            <label><input type="checkbox" class="sight-type" value="historic=*" checked> Historic Site</label>
+            <label><input type="checkbox" class="sight-type" value="leisure=park" checked> Park</label>
+            <label><input type="checkbox" class="sight-type" value="tourism=art_gallery" checked> Art Gallery</label>
+            <label><input type="checkbox" class="sight-type" value="historic=monument" checked> Monument</label>
+        </div>
+    </div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="/static/main.js"></script>
+</body>
+</html> 
